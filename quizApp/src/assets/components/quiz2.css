@@ -1,0 +1,10 @@
+.main{
+    margin: 20px auto;
+    padding: 20px;
+    min-height: 700vh;
+    justify-content: center;
+    align-items: center;
+}
+.w.come{
+  background-color: aquamarine;
+}
