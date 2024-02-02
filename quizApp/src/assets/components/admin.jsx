@@ -26,7 +26,7 @@ export default function AdminPannel(props){
       <td>{q.options.join("**")}</td>
       <td>{q.correctAnswerArr +1}</td>
       <td><button className="btn btn-danger" onClick = {() =>{onDelete(q.id)}}>Delete</button></td>
-      {/* <td><button className="btn btn-primary">Edit</button></td> */}
+      
 
     </tr> )}
   
