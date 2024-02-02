@@ -1,0 +1,143 @@
+** for adding question dynamically.. 
+
+import React, { useState } from 'react';
+
+function QuestionForm() {
+  // Initialize state for questions using the useState hook
+  const [questions, setQuestions] = useState([]);
+  const [newQuestion, setNewQuestion] = useState({
+    id: '',
+    statement: '',
+    options: [],
+    correctOption: '',
+  });
+
+  // Define a function to handle adding a new question
+  const handleAddQuestion = () => {
+    // Validate that all required fields are filled
+    if (!newQuestion.id || !newQuestion.statement || newQuestion.options.length < 2) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    // Add the new question to the list of questions
+    setQuestions([...questions, newQuestion]);
+
+    // Clear the input fields for the next question
+    setNewQuestion({
+      id: '',
+      statement: '',
+      options: [],
+      correctOption: '',
+    });
+  };
+
+  // Render the component
+  return (
+    <div>
+      <h1>Dynamic Question Form</h1>
+      {/* Input field for question ID */}
+      <input
+        type="text"
+        placeholder="Question ID"
+        value={newQuestion.id}
+        onChange={(e) => setNewQuestion({ ...newQuestion, id: e.target.value })}
+      />
+      {/* Input field for question statement */}
+      <input
+        type="text"
+        placeholder="Question Statement"
+        value={newQuestion.statement}
+        onChange={(e) => setNewQuestion({ ...newQuestion, statement: e.target.value })}
+      />
+      {/* Input field for options (comma-separated) */}
+      <input
+        type="text"
+        placeholder="Options (comma-separated)"
+        value={newQuestion.options.join(',')}
+        onChange={(e) => setNewQuestion({ ...newQuestion, options: e.target.value.split(',') })}
+      />
+      {/* Input field for correct option */}
+      <input
+        type="text"
+        placeholder="Correct Option"
+        value={newQuestion.correctOption}
+        onChange={(e) => setNewQuestion({ ...newQuestion, correctOption: e.target.value })}
+      />
+      {/* Button to add the question */}
+      <button onClick={handleAddQuestion}>Add Question</button>
+
+      {/* Display added questions */}
+      <h2>Added Questions:</h2>
+      <ul>
+        {questions.map((q) => (
+          <li key={q.id}>
+            ID: {q.id}, Statement: {q.statement}, Options: {q.options.join(', ')}, Correct Option: {q.correctOption}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default QuestionForm;
+
+[editing existing Question]
+
+Certainly! Below is an example of how you can modify your existing code to allow editing of existing questions’ statements and options dynamically. We’ll use React’s state management to achieve this:
+
+import React, { useState } from 'react';
+
+function QuestionForm() {
+  const [questions, setQuestions] = useState([
+    // Initialize with some sample questions (replace with your actual data)
+    { id: 1, statement: 'What is React?', options: ['A', 'B', 'C'], correctOption: 'A' },
+    { id: 2, statement: 'What is JSX?', options: ['X', 'Y', 'Z'], correctOption: 'X' },
+    // Add more questions as needed
+  ]);
+
+  const handleEditQuestion = (id, field, value) => {
+    // Find the question to edit
+    const updatedQuestions = questions.map((q) => {
+      if (q.id === id) {
+        return { ...q, [field]: value };
+      }
+      return q;
+    });
+
+    setQuestions(updatedQuestions);
+  };
+
+  return (
+    <div>
+      <h1>Question Editor</h1>
+      {questions.map((q) => (
+        <div key={q.id}>
+          <h3>Question {q.id}</h3>
+          <input
+            type="text"
+            value={q.statement}
+            onChange={(e) => handleEditQuestion(q.id, 'statement', e.target.value)}
+          />
+          <input
+            type="text"
+            value={q.options.join(',')}
+            onChange={(e) => handleEditQuestion(q.id, 'options', e.target.value.split(','))}
+          />
+          <input
+            type="text"
+            value={q.correctOption}
+            onChange={(e) => handleEditQuestion(q.id, 'correctOption', e.target.value)}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default QuestionForm;
+
+Explanation:
+
+We maintain an array of questions in the state.
+The handleEditQuestion function updates the specified field (statement, options, or correctOption) for a 
