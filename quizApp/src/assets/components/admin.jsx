@@ -2,13 +2,18 @@
 /* eslint-disable react/prop-types */
 
 import {useState } from 'react';
+import {motion} from 'framer-motion'
 export default function AdminPannel(props){
-  const {questions, onDelete} = props;
+  const {questions   , onDelete} = props;
    
   return(
         <>
         <h1>Admin Pannel</h1>
-                           
+          <motion.div 
+          initial = {{x : '100vw'}}
+          animate = {{x: 0}}
+          transition={{delay : 0.5, type:'spring', stiffness: 120}}
+          >                
         <table className="table table-hover table-striped">
   <thead>
     <tr>
@@ -25,13 +30,13 @@ export default function AdminPannel(props){
       <td>{q.statement}</td>
       <td>{q.options.join("**")}</td>
       <td>{q.correctAnswerArr +1}</td>
-      <td><button className="btn btn-danger" onClick = {() =>{onDelete(q.id)}}>Delete</button></td>
+      <td><motion.button whileHover={{scale : 1.5}} className="btn btn-danger" onClick = {() =>{onDelete(q.id)}}>Delete</motion.button></td>
       
 
     </tr> )}
   
     </tbody>
-    </table>
+    </table></motion.div>   
         </>
     )
 }

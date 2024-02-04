@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
-
 import './quiz2.css'
+import {motion} from 'framer-motion';
 
 //************ */
 export default function Quiz2(props) {
@@ -20,6 +20,8 @@ export default function Quiz2(props) {
     const [delquestion, setDelQuestion] = useState([...Questions])
     // background...
     const [background, setBackground] = useState ('');
+    // option selected...
+    const [selectedOption, setSelectedOption] = useState(null);
     
 
 
@@ -28,6 +30,7 @@ export default function Quiz2(props) {
 
         setCurrentQuestion(currentQuestion + 1);
         setQuestionNum(questionnum + 1);
+        setSelectedOption(null); 
 
     }
 
@@ -36,6 +39,7 @@ export default function Quiz2(props) {
         if (currentQuestion > 0) {
             setCurrentQuestion(currentQuestion - 1);
             setQuestionNum(questionnum - 1);
+            setSelectedOption(null); 
             
 
         }
@@ -46,6 +50,7 @@ export default function Quiz2(props) {
         if (value === Questions[currentQuestion].correctAnswerArr) {
             setScore(score + 1);
             setBackground('red');
+            setSelectedOption(value);
         }
     }
    
@@ -58,11 +63,15 @@ export default function Quiz2(props) {
     // Well come Screen..
     if (questionindex === null) {
         return (
-            <div className="container   text-center w.come bg-success mt-3">
+            <motion.div 
+            initial = {{x : '-100vw'}}
+            animate = {{x : 0}}
+            transition={{delay: 0.5, type: 'spring', stiffness: 130}}
+            className="container   text-center w.come bg-success mt-3">
                 <h1 className="text-center mt-5"> To Start your  Quiz press Start Button</h1>
-                <button className="btn btn-primary my-5 mx-auto" onClick={startQuiz} > Start Quiz </button>
+                <motion.button whileHover={{scale : 1.5}} className="btn btn-primary my-5 mx-auto" onClick={startQuiz} > Start Quiz </motion.button>
                
-            </div>
+            </motion.div>
         )
     }
     const reStartQuiz = () => {
@@ -77,12 +86,17 @@ export default function Quiz2(props) {
     // at the end of Quiz...
     if (currentQuestion === Questions.length) {
         return (
-            <div className="container text-center bg-warning">
+            <motion.div 
+            initial = {{x : '-100vw'}}
+            animate = {{x : 0}}
+            transition={{delay: 1, type: 'fade'}}
+            
+            className="container text-center bg-warning">
                 <h1 className="text-center">Quiz Finished</h1>
                 <h3 className="text-center"> You Scored : {score} Out of  {Questions.length}     </h3>
-                <button className="btn btn-primary  my-3" onClick={reStartQuiz}>retry Quiz</button>
+                <motion.button whileHover={{scale : 1.4}} className="btn btn-primary  my-3" onClick={reStartQuiz}>retry Quiz</motion.button>
 
-            </div>
+            </motion.div>
         )
     }
 
@@ -101,10 +115,15 @@ export default function Quiz2(props) {
                 <h1 className='text-center d-1'>Quiz App </h1>
                 <h3 className=' d-1'>Question no.{questionnum}/ {Questions.length} </h3>
 
-                <div className="container ">
+                <motion.div 
+                initial = {{x : '-100vw'}}
+                            animate = {{x : 0}}
+                            transition={{delay: 1 , type: 'fade'}} className="container ">
                     <div className="row">
                         <div className="col">
-                            <h3 className=" mt-4 color-danger">{delquestion[currentQuestion]?.statement} </h3>
+                            <h3
+                            
+                            className=" mt-4 color-danger">{delquestion[currentQuestion]?.statement} </h3>
 
                             <ul className="list-unstyled mt-5 ">
                                 {delquestion[currentQuestion]?.options.map((option, index) => {
@@ -119,12 +138,14 @@ export default function Quiz2(props) {
                             </ul>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 <div className="container col d-flex justify-content-around mt-5">
 
-                    <button className='btn btn-sm btn-primary' onClick={nextQuestion} >Next</button>
-                    <button className='btn btn-sm btn-primary' onClick={previousQuestion} disabled={currentQuestion === 0}>Previous</button>
+                    <motion.button 
+                    whileHover={{scale:1.5}}
+                    className='btn btn-sm btn-primary' onClick={nextQuestion} >Next</motion.button>
+                    <motion.button  whileHover={{scale:1.5}} className='btn btn-sm btn-primary' onClick={previousQuestion} disabled={currentQuestion === 0}>Previous</motion.button>
 
                    
                 </div>
